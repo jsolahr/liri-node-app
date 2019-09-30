@@ -6,7 +6,6 @@ var fs = require("fs");
 var keys = require("./keys.js");
 var axios = require ("axios");
 var Spotify = require("node-spotify-api");
-var moment = require('moment');
 var spotify = new Spotify(keys.spotify);
 var command = process.argv[2];
 var parameter = process.argv.slice(3).join(" ");
@@ -38,8 +37,11 @@ function switchCase() {
 function bandsInTown(){
     if (command === "concert-this"){
         var artist = parameter;
-    }
-
+      } 
+      if (artist === ""){
+        artist = "Jason Aldean";
+      }      
+    
   var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
   axios.get(queryUrl).then(function(response) {
@@ -102,6 +104,66 @@ function movieInfo() {
     });
   
   }
+
+////Function for Searching a Song///////
+function song(parameter) {
+  if (command === "spotify-this-song"){
+    var spotifySong = parameter;
+    console.log(spotifySong);
+    } 
+   if (spotifySong === "") {
+      spotifySong = "All that she wants";
+    }
+    spotify.search({ 
+      type: 'track',
+      query: spotifySong,
+      limit: 1 }, 
+      
+      function(err, data) {
+      if (err) {
+        return console.log('Error occurred: ' + err);
+      }
+
+    console.log("Artist Name: " + data.tracks.items[0].album.artists[0].name); 
+    console.log("Song Title: " + data.tracks.items[0].name);
+    console.log("Listen on Spotify: " + data.tracks.items[0].external_urls.spotify);
+    console.log("Album Name: " + data.tracks.items[0].album.name);
+    })
+  
+  }
+
+////Function for Doing What it Says///////
+function random() {
+    
+fs.readFile("random.txt", "utf8", function(error, data) {
+
+  var dataArr = data.split(',');
+  var doThing = dataArr[1];
+
+  spotify.search({ 
+    type: 'track',
+    query: doThing,
+    limit: 1 }, 
+    
+    function(err, data) {
+    if (err) {
+      return console.log('Error occurred: ' + err);
+    }
+
+  console.log("Artist Name: " + data.tracks.items[0].album.artists[0].name); 
+  console.log("Song Title: " + data.tracks.items[0].name);
+  console.log("Listen on Spotify: " + data.tracks.items[0].external_urls.spotify);
+  console.log("Album Name: " + data.tracks.items[0].album.name);
+  })
+
+ 
+  if (error) {
+    return console.log(error);
+  }
+
+ 
+})
+}
 
   switchCase();
 
