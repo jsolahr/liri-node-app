@@ -10,7 +10,7 @@ LIRI is a Node.JS based application. It is simliar to iPhone's SIRI, except it t
   
   This app can search Spotify for songs, Bands in Town for concerts,  OMDB for movies and read text from a random.txt file. 
 
-How to get started! 
+# How to get started! 
 
 Clone the repository and do the following" "
 
@@ -33,7 +33,7 @@ Create a .env file in the same directory as the rest of the files. In the .env f
 Also add a song name to your random.txt like this ex. ("I Want it Take Way")
 
 
-How to run commands from the CLI"
+# How to run commands from the CLI"
 
 1. node liri.js concert-this [band name];
 
